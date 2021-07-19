@@ -1,0 +1,56 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Movie Registration";
+}
+
+
+<form asp-action="Result" method="get">
+    <label asp-for="Title"></label>
+    <input type="text" asp-for="Title" value="@Model.Title" />
+    <span style="color:red">@Html.ValidationMessageFor(x => x.Title)</span>
+    <br />
+
+    <label asp-for="Genre"></label>
+    <select asp-for="Genre">
+        <option value="@Model.Genre"></option>
+        <option value="Animated">Adventure</option>
+        <option value="Biopic">Biopic</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Documentary">Documentary</option>
+        <option value="Drama">Drama</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Horror">Horror</option>
+        <option value="Romance">Romance</option>
+        <option value="Science Fiction">Science Fiction</option>
+    </select>
+
+    <span style="color:red">
+        @Html.ValidationMessageFor(x => x.Genre)
+    </span>
+    <br />
+
+    <label asp-for="Year"></label>
+    <input type="number" asp-for="Year" value="@Model.Year" />
+    <span style="color:red">
+        @Html.ValidationMessageFor(x => x.Year)
+    </span>
+    <br />
+
+    <label asp-for="Actors"></label>
+    <input type="text" asp-for="Actors" value="@Model.Actors" />
+    <span style="color:red">
+        @Html.ValidationMessageFor(x => x.Actors)
+    </span>
+    <br />
+
+    <label asp-for="Directors"></label>
+    <input type="text" asp-for="Directors" value="@Model.Directors" />
+    <span style="color:red">
+        @Html.ValidationMessageFor(x => x.Directors)
+    </span>
+    <br />
+    <input type="hidden" asp-for="ID" value="@Model.ID">
+    <input type="submit" value="Add this movie!" />
+
+</form>
