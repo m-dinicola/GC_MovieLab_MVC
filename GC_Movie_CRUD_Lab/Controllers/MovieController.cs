@@ -1,5 +1,6 @@
 ﻿using GC_Movie_CRUD_Lab.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,9 +60,19 @@ namespace GC_Movie_CRUD_Lab.Controllers
         #region Update
         //PUT: api/Movie/1
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateMovie(int id, Movie updatedMovie)
+        public async Task<IActionResult> UpdateMovie(int id, Movie updatedMovie)
         {
-
+            if (ModelState.IsValid)
+            {
+                Movie movie = await _context.Movies.FindAsync(id);
+                movie.Genre = updatedMovie.Genre;
+                movie.Runtime = updatedMovie.Runtime;
+                movie.Title = updatedMovie.Title;
+                _context.Entry(movie).State = EntityState.Modified;
+                _context.Update(movie);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
         }
 
         #endregion
@@ -70,7 +81,12 @@ namespace GC_Movie_CRUD_Lab.Controllers
         //DELETE: api/Movie/1
         public async Task<ActionResult> DeleteMovie(int id)
         {
-
+            Movie deletedMovie = await _context.Movies.FindAsync(id);
+            if (!(deletedMovie is null)) {
+                _context.Movies.Remove(deletedMovie);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
         }
 
         #endregion
